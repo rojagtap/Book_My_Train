@@ -1,0 +1,56 @@
+{% extends 'booking/base.html' %}
+{% block title %}Book-Confirmation{% endblock %}
+
+{% block body %}
+<div class="container-fluid vertical-align">
+
+    <!--<div class="row">-->
+    <div class="col-sm-6 col-sm-offset-3 col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3>Payment by card</h3>
+                <h4><span>Signed In as {{ user.username }}, </span><a href="{% url 'booking:logout_user' %}">Logout</a></h4>
+                <form class="form-horizontal" role="form" action="{% url 'booking:status' %}" method="get"
+                      enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <br>
+
+                    <label for="p">Card Number</label>
+                    <input type="text" minlength="16" maxlength="16" class="form-control form-control-lg" name="p"
+                           placeholder="Card Number" required>
+                    <br>
+                    <label for="q">Card Holder's Name</label>
+                    <input type="text" class="form-control form-control-lg" name="q"
+                           placeholder="Card holder's name" required>
+                    <br>
+                    <label for="r">Expiry</label>
+                    <input type="text" class="form-control form-control-lg" name="r" required style="width:160px;">
+                    <br>
+                    <label for="s">CVV</label>
+                    <input type="password" minlength="3" maxlength="3" class="form-control form-control-sm" name="s"
+                           placeholder="CVV" required style="width:90px;">
+                    <div class="form-row">
+                        <center>
+                            <div class="form-group">
+                                <div class="col-sm-offset-1 col-sm-10">
+                                    <br>
+                                    <button type="submit" class="btn btn-success">
+                                        {% ifequal is_return "No" %}
+                                        <span>Proceed to pay Rs.{% widthratio amt 1 passengers %}</span>
+                                        {% else %}
+                                        <span>Proceed to pay Rs.{% widthratio amt 0.5 passengers %}</span>
+                                        {% endifequal %}
+                                    </button>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                    <span>Note: Once proceeded, the amount is non-refundable. In case of cancellation, suitable amount may be deduced before refund</span>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- </div>-->
+</div>
+
+{% endblock %}
